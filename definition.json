@@ -1,0 +1,8 @@
+{
+  "actionClass": [
+    "Fusio\\Adapter\\Mqtt\\Action\\MqttPublish"
+  ],
+  "connectionClass": [
+    "Fusio\\Adapter\\Mqtt\\Connection\\Mqtt"
+  ]
+}
