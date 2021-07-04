@@ -26,8 +26,8 @@ use Fusio\Engine\ConnectionInterface;
 use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
-//use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpMqtt\Client;
+use PhpMqtt\Client\MQTTClient;
+use PhpMqtt\Client\ConnectionSettings;
 
 /**
  * Mqtt
@@ -45,16 +45,16 @@ class Mqtt implements ConnectionInterface, PingableInterface
 
     /**
      * @param \Fusio\Engine\ParametersInterface $config
-     * @return \PhpMqtt\Client
+     * @return \PhpMqtt\Client\MQTTClient
      */
     public function getConnection(ParametersInterface $config)
     {
-        $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
+        $connectionSettings = (new ConnectionSettings())
             ->setUsername($config->get('user') ?: null)
             ->setPassword($config->get('password') ?: null)
         ;
 
-        $client = new \PhpMqtt\Client\MQTTClient(
+        $client = new MQTTClient(
             $config->get('host'),
             $config->get('port') ?: 1883,
             $config->get('clientid'),
@@ -75,7 +75,7 @@ class Mqtt implements ConnectionInterface, PingableInterface
 
     public function ping($connection)
     {
-        if ($connection instanceof \PhpMqtt\Client\MQTTClient) {
+        if ($connection instanceof MQTTClient) {
             return $connection->isConnected();
         } else {
             return false;

@@ -28,8 +28,6 @@ use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
-
-//use PhpMqtt\Client\MQTTClient;
 use PhpMqtt\Client\MQTTClient;
 
 /**
