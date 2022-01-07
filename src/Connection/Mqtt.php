@@ -3,7 +3,7 @@
  * Fusio
  * A web-application to create dynamically RESTful APIs
  *
- * Copyright (C) 2015-2018 Christoph Kappestein <christoph.kappestein@gmail.com>
+ * Copyright (C) 2015-2022 Christoph Kappestein <christoph.kappestein@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -34,20 +34,16 @@ use PhpMqtt\Client\ConnectionSettings;
  *
  * @author  Tobias Soltermann <tobias.soltermann@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
- * @link    http://fusio-project.org
+ * @link    https://www.fusio-project.org/
  */
 class Mqtt implements ConnectionInterface, PingableInterface
 {
-    public function getName()
+    public function getName(): string
     {
         return 'MQTT';
     }
 
-    /**
-     * @param \Fusio\Engine\ParametersInterface $config
-     * @return \PhpMqtt\Client\MQTTClient
-     */
-    public function getConnection(ParametersInterface $config)
+    public function getConnection(ParametersInterface $config): MQTTClient
     {
         $connectionSettings = (new ConnectionSettings())
             ->setUsername($config->get('user') ?: null)
@@ -64,7 +60,7 @@ class Mqtt implements ConnectionInterface, PingableInterface
         return $client;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory): void
     {
         $builder->add($elementFactory->newInput('host', 'Host', 'text', 'The IP or hostname of the MQTT server'));
         $builder->add($elementFactory->newInput('port', 'Port', 'number', 'The port used to connect to the MQTT broker. The port default is 1883'));
@@ -73,7 +69,7 @@ class Mqtt implements ConnectionInterface, PingableInterface
         $builder->add($elementFactory->newInput('clientid', 'Client ID', 'text', 'The client id to supply to the MQTT broker'));
     }
 
-    public function ping($connection)
+    public function ping(mixed $connection): bool
     {
         if ($connection instanceof MQTTClient) {
             return $connection->isConnected();

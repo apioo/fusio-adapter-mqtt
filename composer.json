@@ -12,8 +12,8 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
-    "fusio/engine": "^4.0",
+    "php": ">=8.0",
+    "fusio/engine": "^5.0",
     "php-mqtt/client": "^1.1"
   },
   "require-dev": {

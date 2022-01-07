@@ -29,22 +29,23 @@ use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
 use PhpMqtt\Client\MQTTClient;
+use PSX\Http\Environment\HttpResponseInterface;
 
 /**
  * Mqtt
  *
  * @author  Tobias Soltermann <tobias.soltermann@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
- * @link    http://fusio-project.org
+ * @link    https://www.fusio-project.org/
  */
 class MqttPublish extends ActionAbstract
 {
-    public function getName()
+    public function getName(): string
     {
         return 'MQTT-Publish';
     }
 
-    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
+    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): HttpResponseInterface
     {
         $connection = $this->getConnection($configuration);
  
@@ -56,7 +57,7 @@ class MqttPublish extends ActionAbstract
         ]);
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory): void
     {
         $builder->add($elementFactory->newConnection('connection', 'Connection', 'The MQTT connection which should be used'));
         $builder->add($elementFactory->newInput('topic', 'Topic', 'text', 'The MQTT topic to publish on'));
