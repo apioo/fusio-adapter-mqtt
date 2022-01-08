@@ -57,10 +57,15 @@ class Mqtt implements ConnectionInterface, PingableInterface
             ->setPassword($config->get('password') ?: null)
         ;
 
+        $clientId = $config->get('clientid');
+        if (empty($clientId)) {
+            $clientId = null;
+        }
+
         $client = new MqttClient(
             $config->get('host'),
             $config->get('port') ?: 1883,
-            $config->get('clientid'),
+            $clientId
         );
         $client->connect($connectionSettings, true);
 
