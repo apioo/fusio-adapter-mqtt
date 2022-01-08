@@ -44,7 +44,6 @@ class MqttTest extends TestCase
 
     public function testGetConnection()
     {
-        /** @var Amqp $connectionFactory */
         $connectionFactory = $this->getConnectionFactory()->factory(Mqtt::class);
 
         $config = new Parameters([
@@ -70,7 +69,7 @@ class MqttTest extends TestCase
 
         $this->assertInstanceOf(Container::class, $builder->getForm());
 
-        $elements = $builder->getForm()->getProperty('element');
+        $elements = $builder->getForm()->getElements();
         $this->assertEquals(5, count($elements));
         $this->assertInstanceOf(Input::class, $elements[0]);
         $this->assertInstanceOf(Input::class, $elements[1]);
@@ -86,10 +85,10 @@ class MqttTest extends TestCase
 
         $config = new Parameters([
             'host'     => '127.0.0.1',
-            'port'     => 5672,
+            'port'     => 1883,
             'user'     => 'guest',
             'password' => 'guest',
-            'vhost'    => '/'
+            'clientid' => ''
         ]);
 
         $connection = $connectionFactory->getConnection($config);
