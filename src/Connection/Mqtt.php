@@ -26,8 +26,10 @@ use Fusio\Engine\ConnectionInterface;
 use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
-use PhpMqtt\Client\MQTTClient;
 use PhpMqtt\Client\ConnectionSettings;
+use PhpMqtt\Client\Contracts\MqttClient as MqttClientInterface;
+use PhpMqtt\Client\Exceptions;
+use PhpMqtt\Client\MqttClient;
 
 /**
  * Mqtt
@@ -43,14 +45,19 @@ class Mqtt implements ConnectionInterface, PingableInterface
         return 'MQTT';
     }
 
-    public function getConnection(ParametersInterface $config): MQTTClient
+    /**
+     * @throws Exceptions\ConnectingToBrokerFailedException
+     * @throws Exceptions\ProtocolNotSupportedException
+     * @throws Exceptions\ConfigurationInvalidException
+     */
+    public function getConnection(ParametersInterface $config): MqttClientInterface
     {
         $connectionSettings = (new ConnectionSettings())
             ->setUsername($config->get('user') ?: null)
             ->setPassword($config->get('password') ?: null)
         ;
 
-        $client = new MQTTClient(
+        $client = new MqttClient(
             $config->get('host'),
             $config->get('port') ?: 1883,
             $config->get('clientid'),
@@ -71,7 +78,7 @@ class Mqtt implements ConnectionInterface, PingableInterface
 
     public function ping(mixed $connection): bool
     {
-        if ($connection instanceof MQTTClient) {
+        if ($connection instanceof MqttClient) {
             return $connection->isConnected();
         } else {
             return false;
