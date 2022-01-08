@@ -27,8 +27,7 @@ use Fusio\Engine\Form\Container;
 use Fusio\Engine\Form\Element\Input;
 use Fusio\Engine\Parameters;
 use Fusio\Engine\Test\EngineTestCaseTrait;
-//use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpMqtt\Client;
+use PhpMqtt\Client\Contracts\MqttClient as MqttClientInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -48,15 +47,15 @@ class MqttTest extends TestCase
 
         $config = new Parameters([
             'host'     => '127.0.0.1',
-            'port'     => 5672,
+            'port'     => 1883,
             'user'     => 'guest',
             'password' => 'guest',
-            'vhost'    => '/'
+            'clientid' => ''
         ]);
 
         $connection = $connectionFactory->getConnection($config);
 
-        $this->assertInstanceOf(MQTTClient::class, $connection);
+        $this->assertInstanceOf(MqttClientInterface::class, $connection);
     }
 
     public function testConfigure()
