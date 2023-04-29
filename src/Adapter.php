@@ -34,6 +34,6 @@ class Adapter implements AdapterInterface
 {
     public function getContainerFile(): string
     {
-        return __DIR__ . '/../.phpunit.result.cache';
+        return __DIR__ . '/../resources/container.php';
     }
 }
