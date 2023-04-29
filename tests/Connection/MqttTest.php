@@ -22,13 +22,12 @@
 namespace Fusio\Adapter\Mqtt\Tests\Connection;
 
 use Fusio\Adapter\Mqtt\Connection\Mqtt;
+use Fusio\Adapter\Mqtt\Tests\MqttTestCase;
 use Fusio\Engine\Form\Builder;
 use Fusio\Engine\Form\Container;
 use Fusio\Engine\Form\Element\Input;
 use Fusio\Engine\Parameters;
-use Fusio\Engine\Test\EngineTestCaseTrait;
 use PhpMqtt\Client\Contracts\MqttClient as MqttClientInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * MqttTest
@@ -37,10 +36,8 @@ use PHPUnit\Framework\TestCase;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    https://www.fusio-project.org/
  */
-class MqttTest extends TestCase
+class MqttTest extends MqttTestCase
 {
-    use EngineTestCaseTrait;
-
     public function testGetConnection()
     {
         $connectionFactory = $this->getConnectionFactory()->factory(Mqtt::class);
