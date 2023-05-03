@@ -51,7 +51,7 @@ abstract class MqttTestCase extends TestCase
 {
     use EngineTestCaseTrait;
 
-    protected MqttClient $connection;
+    protected ?MqttClient $connection = null;
 
     protected function configure(Runtime $runtime, Container $container): void
     {
