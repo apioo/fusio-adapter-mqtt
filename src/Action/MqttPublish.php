@@ -28,7 +28,7 @@ use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
-use PhpMqtt\Client\MQTTClient;
+use PhpMqtt\Client\MqttClient;
 use PSX\Http\Environment\HttpResponseInterface;
 
 /**
@@ -63,10 +63,10 @@ class MqttPublish extends ActionAbstract
         $builder->add($elementFactory->newInput('topic', 'Topic', 'text', 'The MQTT topic to publish on'));
     }
 
-    protected function getConnection(ParametersInterface $configuration): MQTTClient
+    protected function getConnection(ParametersInterface $configuration): MqttClient
     {
         $connection = $this->connector->getConnection($configuration->get('connection'));
-        if (!$connection instanceof MQTTClient) {
+        if (!$connection instanceof MqttClient) {
             throw new ConfigurationException('Given connection must be a MQTT connection');
         }
 
