@@ -22,7 +22,7 @@
 namespace Fusio\Adapter\Mqtt\Connection;
 
 use Fusio\Engine\Connection\PingableInterface;
-use Fusio\Engine\ConnectionInterface;
+use Fusio\Engine\ConnectionAbstract;
 use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
@@ -38,7 +38,7 @@ use PhpMqtt\Client\MqttClient;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    https://www.fusio-project.org/
  */
-class Mqtt implements ConnectionInterface, PingableInterface
+class Mqtt extends ConnectionAbstract implements PingableInterface
 {
     public function getName(): string
     {
