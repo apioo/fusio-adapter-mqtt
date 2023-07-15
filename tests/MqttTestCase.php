@@ -21,24 +21,14 @@
 
 namespace Fusio\Adapter\Mqtt\Tests;
 
-use Fusio\Adapter\Mongodb\Action\MongoDeleteOne;
-use Fusio\Adapter\Mongodb\Action\MongoFindAll;
-use Fusio\Adapter\Mongodb\Action\MongoFindOne;
-use Fusio\Adapter\Mongodb\Action\MongoInsertOne;
-use Fusio\Adapter\Mongodb\Action\MongoUpdateOne;
-use Fusio\Adapter\Mongodb\Connection\MongoDB;
-use Fusio\Adapter\Mongodb\Generator\MongoCollection;
-use Fusio\Adapter\Mqtt\Action\MqttPublish;
+use Fusio\Adapter\Mqtt\Adapter;
 use Fusio\Adapter\Mqtt\Connection\Mqtt;
-use Fusio\Engine\Action\Runtime;
-use Fusio\Engine\ConnectorInterface;
 use Fusio\Engine\Model\Connection;
 use Fusio\Engine\Parameters;
 use Fusio\Engine\Test\CallbackConnection;
 use Fusio\Engine\Test\EngineTestCaseTrait;
 use PhpMqtt\Client\MqttClient;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Container;
 
 /**
  * MqttTestCase
@@ -52,12 +42,6 @@ abstract class MqttTestCase extends TestCase
     use EngineTestCaseTrait;
 
     protected ?MqttClient $connection = null;
-
-    protected function configure(Runtime $runtime, Container $container): void
-    {
-        $container->set(Mqtt::class, new Mqtt());
-        $container->set(MqttPublish::class, new MqttPublish($runtime));
-    }
 
     protected function setUp(): void
     {
@@ -91,5 +75,10 @@ abstract class MqttTestCase extends TestCase
         } catch (\Exception $e) {
             $this->markTestSkipped('Memcache connection not available');
         }
+    }
+
+    protected function getAdapterClass(): string
+    {
+        return Adapter::class;
     }
 }
