@@ -53,7 +53,7 @@ class MqttPublish extends ActionAbstract
 
         return $this->response->build(200, [], [
             'success' => true,
-            'message' => 'Message successful published',
+            'message' => 'Message successfully published',
         ]);
     }
 

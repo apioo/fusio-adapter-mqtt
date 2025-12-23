@@ -21,13 +21,15 @@
 
 namespace Fusio\Adapter\Mqtt\Tests;
 
+use Exception;
 use Fusio\Adapter\Mqtt\Adapter;
 use Fusio\Adapter\Mqtt\Connection\Mqtt;
 use Fusio\Engine\Model\Connection;
 use Fusio\Engine\Parameters;
+use Fusio\Engine\Repository\ConnectionMemory;
 use Fusio\Engine\Test\CallbackConnection;
 use Fusio\Engine\Test\EngineTestCaseTrait;
-use PhpMqtt\Client\MqttClient;
+use PhpMqtt\Client\Contracts\MqttClient as MqttClientInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,7 +43,7 @@ abstract class MqttTestCase extends TestCase
 {
     use EngineTestCaseTrait;
 
-    protected ?MqttClient $connection = null;
+    protected ?MqttClientInterface $connection = null;
 
     protected function setUp(): void
     {
@@ -55,10 +57,12 @@ abstract class MqttTestCase extends TestCase
             },
         ]);
 
-        $this->getConnectionRepository()->add($connection);
+        /** @var ConnectionMemory $repository */
+        $repository = $this->getConnectionRepository();
+        $repository->add($connection);
     }
 
-    protected function newConnection(): MqttClient
+    protected function newConnection(): MqttClientInterface
     {
         $connector = new Mqtt();
 
@@ -72,9 +76,18 @@ abstract class MqttTestCase extends TestCase
             ]));
 
             return $connection;
-        } catch (\Exception $e) {
-            $this->markTestSkipped('Memcache connection not available');
+        } catch (Exception) {
+            $this->markTestSkipped('Mqtt connection not available');
         }
+    }
+
+    public function getConnection(): MqttClientInterface
+    {
+        if (!$this->connection instanceof MqttClientInterface) {
+            $this->markTestSkipped('Mqtt connection not available');
+        }
+
+        return $this->connection;
     }
 
     protected function getAdapterClass(): string

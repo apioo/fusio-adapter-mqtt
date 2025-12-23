@@ -23,6 +23,7 @@ namespace Fusio\Adapter\Mqtt\Tests\Connection;
 
 use Fusio\Adapter\Mqtt\Connection\Mqtt;
 use Fusio\Adapter\Mqtt\Tests\MqttTestCase;
+use Fusio\Engine\ConfigurableInterface;
 use Fusio\Engine\Form\Builder;
 use Fusio\Engine\Form\Container;
 use Fusio\Engine\Form\Element\Input;
@@ -38,7 +39,7 @@ use PhpMqtt\Client\Contracts\MqttClient as MqttClientInterface;
  */
 class MqttTest extends MqttTestCase
 {
-    public function testGetConnection()
+    public function testGetConnection(): void
     {
         $connectionFactory = $this->getConnectionFactory()->factory(Mqtt::class);
 
@@ -55,11 +56,13 @@ class MqttTest extends MqttTestCase
         $this->assertInstanceOf(MqttClientInterface::class, $connection);
     }
 
-    public function testConfigure()
+    public function testConfigure(): void
     {
         $connection = $this->getConnectionFactory()->factory(Mqtt::class);
         $builder    = new Builder();
         $factory    = $this->getFormElementFactory();
+
+        $this->assertInstanceOf(ConfigurableInterface::class, $connection);
 
         $connection->configure($builder, $factory);
 
@@ -74,7 +77,7 @@ class MqttTest extends MqttTestCase
         $this->assertInstanceOf(Input::class, $elements[4]);
     }
 
-    public function testPing()
+    public function testPing(): void
     {
         /** @var Mqtt $connectionFactory */
         $connectionFactory = $this->getConnectionFactory()->factory(Mqtt::class);
